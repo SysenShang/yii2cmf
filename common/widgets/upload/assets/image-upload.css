@@ -106,8 +106,8 @@
   margin-top: -0.5em;
 }
 .upload-kit .upload-kit-item.image > img {
-  height: 100%;
-  width: auto;
+  height: 150px;
+  width: 150px;
   border-radius: 7px;
 }
 .upload-kit .upload-kit-item.not-image {

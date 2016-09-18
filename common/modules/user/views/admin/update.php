@@ -43,7 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             'visible' => Yii::$app->getModule("rbac"),
                             'encode' => false
                         ],
-                    
+                        [
+                            'label' => '个人相册',
+                            'url' => ['/user/admin/album', 'id' => $user->id]
+                        ]
                     ],
                 ]) ?>
             </div>

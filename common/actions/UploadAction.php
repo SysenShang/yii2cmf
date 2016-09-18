@@ -109,6 +109,7 @@ class UploadAction extends Action
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isPost) {
+//            p($_FILES);
             $files = UploadedFile::getInstancesByName($this->uploadParam);
 //            p($files);
             if (!$this->multiple) {
@@ -167,6 +168,8 @@ class UploadAction extends Action
                 $result = [
                     'id' => $attachment->id,
                     'url' => $attachment->url,
+                    'thumbnailUrl' => $attachment->url,
+                    'name' => $attachment->name,
                     'extension' => $attachment->extension,
                     'type' => $attachment->type,
                     'size' => $attachment->size,

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\behaviors\AttachmentBehavior;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -33,7 +34,7 @@ class Album extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'owner_id'], 'required'],
+//            [['name', 'owner_id'], 'required'],
             [['owner_id'], 'integer'],
             [['name'], 'string', 'max' => 128],
             [['description'], 'string', 'max' => 255],
@@ -47,9 +48,9 @@ class Album extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'owner_id' => Yii::t('app', 'Owner ID'),
             'name' => Yii::t('app', 'Name'),
             'description' => Yii::t('app', 'Description'),
-            'owner_id' => Yii::t('app', 'Owner ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
@@ -64,19 +65,9 @@ class Album extends \yii\db\ActiveRecord
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'user_id',
                 'updatedByAttribute' => false
-            ]
+            ],
+            AttachmentBehavior::className()
         ];
     }
 
-    public function getAttachmentUrls()
-    {
-        return array_map(function($value){
-            return $value->url;
-        }, $this->attachments);
-    }
-    public function getAttachments()
-    {
-        return $this->hasMany(Attachment::className(), ['id' => 'attachment_id'])
-            ->viaTable('{{%album_attachment}}', ['album_id' => 'id']);
-    }
 }

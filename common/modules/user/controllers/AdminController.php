@@ -232,16 +232,27 @@ class AdminController extends Controller
         ]);
     }
 
-    public function actionAlbum()
+    public function actionAlbum($id, $cid = 1)
     {
-        $model = Album::find()->where(['owner_id' => 1])->innerJoinWith('attachments')->one();
+        $user = $this->findModel($id);
+        $model = Album::find()->where(['owner_id' => $id, 'cid' => $cid])->innerJoinWith('attachments')->one();
+        if ($model == null) {
+            $model = new Album();
+        }
 //        p($model->getAttachmentUrls());
-        if($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('album');
+        if(Yii::$app->request->isPost) {
+            if ($model->isNewRecord) {
+                $model->owner_id = $id;
+                $model->cid = $cid;
+            }
+            $model->save();
+            return $this->redirect(['album', 'id' => $id, 'cid' => $cid]);
         }
 
-        return $this->render('_album', [
-            'model' => $model
+        return $this->render('album/update', [
+            'model' => $model,
+            'user' => $user,
+            'cid' => $cid
         ]);
     }
 }

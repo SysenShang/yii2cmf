@@ -34,7 +34,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     /**
      * @inheritdoc
      */
-    public $template = '{view} {update} {delete}{restore}';
+    public $template = '{view} {update} {delete} {restore}';
 
 
     /**
